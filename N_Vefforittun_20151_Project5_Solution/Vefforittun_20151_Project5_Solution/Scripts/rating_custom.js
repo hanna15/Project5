@@ -1,28 +1,40 @@
 ﻿var logID = 'log',
 log = $('<div id="' + logID + '"></div>');
 $('body').append(log);
+
 $('[type*="radio"]').change(function() {
-    var me = $(this);
-    log.html(me.attr('value'));
+    var form = $(this);
+    log.html(form.attr('value'));
+    
+    &(function () {
+        $.ajax()({
+            url: form.attr('value'),
+            data: form.serialize(),
+            mehtod: 'POST',
+            success: function (responseData) {
+                $('#rating').replaceWith($(respondData).find('#rating'));
+            }
+        });
+    });
+    return false;
 });
 
 $(function () {
     $('form').on('submit', function () {
         var form = $(this);
-        $.ajax()({
+        /*$.ajax()({
             url: form.attr('action'),
             data: form.serialize(),
             mehtod: 'POST',
             success: function (responseData) {
-                $('#rating').replaceWith($(respondData).find('#reviews'));
+                $('#rating').replaceWith($(respondData).find('#rating'));
             }
-        });
+        });*/
         return false;
     });
 });
 
-/*
-function stars() {
+/*function stars() {
     var rating = parseInt($("#myCurrentRating").text());
 
     if (rating != 0) {
@@ -49,4 +61,4 @@ $(document).ready(function () {
             stars();
         });
     });
-});
+});*/

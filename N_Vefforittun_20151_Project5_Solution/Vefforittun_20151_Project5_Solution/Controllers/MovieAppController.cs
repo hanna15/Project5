@@ -35,7 +35,7 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
             }
             return View("Error");
         }
-        /*
+        
         public ActionResult DetailJSON(int? id)
         {
             if (id.HasValue)
@@ -47,7 +47,7 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
             }
             return View("Error");
         }
-        */
+        
         [HttpPost]
         public ActionResult RateMovie(FormCollection collection)
         {
@@ -88,7 +88,48 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
                 return RedirectToAction("Detail", "MovieApp", new { id = movieId });
             }
         }
-        
+
+        [HttpPost]
+        public ActionResult RateMovieJSON(FormCollection collection)
+        {
+            string movieId = collection["movieid"];
+            string rateInfo = collection["rateinfo"];
+
+            if (String.IsNullOrEmpty(movieId))
+            {
+                return View("Error");
+            }
+            if (String.IsNullOrEmpty(rateInfo))
+            {
+                return RedirectToAction("DetailJSON", "MovieApp", new { id = movieId });
+            }
+
+            string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+            int id = Int32.Parse(movieId);
+
+            Rating rating = MovieAppRepository.Instance.GetRatingsByID(id).Where(x => x.Username == username).SingleOrDefault();
+            if (rating != null)
+            {
+                rating.rating = Int32.Parse(rateInfo);
+                MovieAppRepository.Instance.UpdateRating(rating);
+            }
+            else
+            {
+                Rating newRating = new Rating { MovieId = id, rating = Int32.Parse(rateInfo), Username = username };
+                MovieAppRepository.Instance.AddRating(newRating);
+            }
+
+            if (Request.IsAjaxRequest())
+            {
+                Movie movie = MovieAppRepository.Instance.GetMovieById(username, id);
+                return Json(movie, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return RedirectToAction("DetailJSON", "MovieApp", new { id = movieId });
+            }
+        }
+
         public ActionResult ReviewMovie(FormCollection collection)
         {
             string movieId = collection["movieid"];

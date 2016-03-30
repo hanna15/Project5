@@ -47,7 +47,6 @@ input[type="checkbox"].input-validation-error {
     width: 100% !important;
 }
 
-
 @charset "UTF-8";
 .star-cb-group {
   /* remove inline-block whitespace */
@@ -80,7 +79,7 @@ input[type="checkbox"].input-validation-error {
 }
 .star-cb-group > input:checked ~ label:before, .star-cb-group > input + label:hover ~ label:before, .star-cb-group > input + label:hover:before {
   content: "★";
-  color: #e52;
+  color: blue;
   text-shadow: 0 0 1px #333;
 }
 .star-cb-group > .star-cb-clear + label {
@@ -98,36 +97,11 @@ input[type="checkbox"].input-validation-error {
 }
 .star-cb-group:hover > input + label:hover ~ label:before, .star-cb-group:hover > input + label:hover:before {
   content: "★";
-  color: #e52;
+  color: darkblue;
   text-shadow: 0 0 1px #333;
 }
 
 :root {
   font-size: 2em;
   font-family: Helvetica, arial, sans-serif;
-}
-
-body {
-  background: #333;
-  color: #888;
-}
-
-fieldset {
-  border: 0;
-  background: #222;
-  width: 5em;
-  border-radius: 1px;
-  padding: 1em 1.5em 0.9em;
-  margin: 1em auto;
-}
-
-#log {
-  margin: 1em auto;
-  width: 5em;
-  text-align: center;
-  background: transparent;
-}
-
-h1 {
-  text-align: center;
 }
