@@ -2,34 +2,39 @@
 log = $('<div id="' + logID + '"></div>');
 $('body').append(log);
 
-$('[type*="radio"]').change(function() {
-    var form = $(this);
-    log.html(form.attr('value'));
+$(function () {
+    $('[type*="radio"]').change(function() {
+        var form = $(this);
+        log.html(form.attr('value'));
+
+        alert(form.attr('value'));
     
-    &(function () {
-        $.ajax()({
-            url: form.attr('value'),
-            data: form.serialize(),
-            mehtod: 'POST',
-            success: function (responseData) {
-                $('#rating').replaceWith($(respondData).find('#rating'));
-            }
-        });
     });
-    return false;
 });
 
 $(function () {
-    $('form').on('submit', function () {
+    $('#ratingform').on('submit', function () {
+
         var form = $(this);
-        /*$.ajax()({
-            url: form.attr('action'),
+        $.ajax({
+            url: '/MovieApp/RateMovieJSON',
             data: form.serialize(),
-            mehtod: 'POST',
+            method: 'POST',
             success: function (responseData) {
-                $('#rating').replaceWith($(respondData).find('#rating'));
+                console.log(responseData);
+                $('#rating').html('');
+                var html = '<h3>Rating: ' + responseData.RatingOverall + '</h3>';
+                if (responseData.CurrentUserRating != null) {
+                    html += '<p>I rated ' + responseData.CurrentUserRating.rating + ' start </p>';
+                }
+                else
+                {
+                    html += '<p>You have not rated this movie</p>';
+                }
+
+                $('#rating').append(html);
             }
-        });*/
+        });
         return false;
     });
 });

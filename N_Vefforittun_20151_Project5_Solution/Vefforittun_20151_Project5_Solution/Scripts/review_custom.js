@@ -1,13 +1,20 @@
 ﻿
 $(function () {
-    $('form').on('submit', function () {
+    $('#reviewform').on('submit', function () {
         var form = $(this);
-        $.ajax()({
-            url: form.attr('action'),
+        $.ajax({
+            url: '/MovieApp/ReviewMovieJSON',
             data: form.serialize(),
-            mehtod: 'POST',
+            method: 'POST',
             success: function (responseData) {
-                $('#reviews').replaceWith($(respondData).find('#reviews'));
+                console.log(responseData);
+                $('#reviews').html('');
+                for(var i = 0 ; i < responseData.Reviews.length; i++)
+                {
+                    var html = '<p>' + responseData.Reviews[i].Username + ' | ' + responseData.Reviews[i].Text + '</p>';
+                    $('#reviews').append(html);
+                }
+                $('#reviewtext').val('');
             }
         });
         return false;

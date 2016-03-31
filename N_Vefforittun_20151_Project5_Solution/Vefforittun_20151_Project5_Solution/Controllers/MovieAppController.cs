@@ -17,13 +17,6 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
             return View(model);
         }
 
-        public ActionResult IndexJSON()
-        {
-            string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-            IEnumerable<Movie> model = MovieAppRepository.Instance.GetAllMovies(username);
-            return Json(model, JsonRequestBehavior.AllowGet);
-        }
-
         public ActionResult Detail(int? id)
         {
             if(id.HasValue)
@@ -78,15 +71,15 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
                 MovieAppRepository.Instance.AddRating(newRating);
             }
 
-            if (Request.IsAjaxRequest())
+            /*if (Request.IsAjaxRequest())
             {
                 Movie movie = MovieAppRepository.Instance.GetMovieById(username, id);
-                return Json(movie, JsonRequestBehavior.AllowGet);
+                return RedirectToAction("DetailJSON", "MovieApp", new { id = movieId });
             }
             else
-            {
+            {*/
                 return RedirectToAction("Detail", "MovieApp", new { id = movieId });
-            }
+            //}
         }
 
         [HttpPost]
@@ -101,7 +94,7 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
             }
             if (String.IsNullOrEmpty(rateInfo))
             {
-                return RedirectToAction("DetailJSON", "MovieApp", new { id = movieId });
+                return RedirectToAction("Detail", "MovieApp", new { id = movieId });
             }
 
             string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
@@ -119,15 +112,8 @@ namespace Vefforittun_20151_Project5_Solution.Controllers
                 MovieAppRepository.Instance.AddRating(newRating);
             }
 
-            if (Request.IsAjaxRequest())
-            {
-                Movie movie = MovieAppRepository.Instance.GetMovieById(username, id);
-                return Json(movie, JsonRequestBehavior.AllowGet);
-            }
-            else
-            {
-                return RedirectToAction("DetailJSON", "MovieApp", new { id = movieId });
-            }
+            Movie movie = MovieAppRepository.Instance.GetMovieById(username, id);
+            return RedirectToAction("DetailJSON", "MovieApp", new { id = movieId });
         }
 
         public ActionResult ReviewMovie(FormCollection collection)

@@ -13,21 +13,23 @@
         <div class="thumbnail">
             <img alt="poster" src="@Url.Content(Model.ThumbnailUrlSmall)" data-holder-rendered="true" style="height: 317px; width: 214px; display: block;">
             <div class="caption">
-                <h3>Rating: @Model.RatingOverall</h3>                                
-                @if(Model.CurrentUserRating != null)
-                {
-                    <p>I rated @Model.CurrentUserRating.rating Stars</p>
-                }
-                else
-                {
-                    <p>You have not rated this movie</p>    
-                }  
-                @using (Html.BeginForm("RateMovie", "MovieApp"))
+                <div id="rating">
+                    <h3>Rating: @Model.RatingOverall</h3>
+                    @if (Model.CurrentUserRating != null)
+                    {
+                        <p>I rated @Model.CurrentUserRating.rating Stars</p>
+                    }
+                    else
+                    {
+                        <p>You have not rated this movie</p>    
+                    }  
+                </div>
+                @using (Html.BeginForm("RateMovie", "MovieApp", FormMethod.Post, new { @id = "ratingform" }))
                 {
                     <input type="hidden" name="movieid" value="@Model.Id" />
                     <div class="form-horizontal">
-                        <label class="sr-only" for="rateinfo">Rate</label> 
-                        <form id="rating">
+                        <label class="sr-only" for="rateinfo">Rate</label>
+                        <form>
                             <fieldset>
                                 <span class="star-cb-group">
                                     <input type="radio" id="rating-10" name="rating" value="10" checked="checked" /><label for="rating-10">10</label>
@@ -43,7 +45,7 @@
                                     <input type="radio" id="rating-0" name="rating" value="0" class="star-cb-clear" /><label for="rating-0">0</label>
                                 </span>
                             </fieldset>
-                        </form>                      
+                        </form>
                         <select name="rateinfo" id="rateinfo">
                             <option value="" @noSelection></option>
                             @for (int i = 1; i <= 10; i++)
@@ -162,9 +164,9 @@
         </section>
         <section>
             <h4>Add Review</h4>
-            @using (Html.BeginForm("ReviewMovie", "MovieApp"))
+            @using (Html.BeginForm("ReviewMovie", "MovieApp", FormMethod.Post, new { @id = "reviewform" }))
             {
-                <input type="hidden" name="movieid" value="@Model.Id"/>
+                <input type="hidden" name="movieid" value="@Model.Id" />
                 <div class="form-horizontal">
                     <label class="sr-only" for="reviewtext">Review</label>
                     <textarea class="form-control" rows="5" id="reviewtext" name="reviewtext" style="max-width:100%"></textarea>
